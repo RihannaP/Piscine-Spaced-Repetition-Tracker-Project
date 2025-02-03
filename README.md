@@ -1,9 +1,4 @@
 # Piscine-Spaced-Repetition-Tracker-Project
-Here’s a simple README file based on your description:
-
----
-
-# **Spaced Repetition Tracker**
 
 ## **Overview**
 
