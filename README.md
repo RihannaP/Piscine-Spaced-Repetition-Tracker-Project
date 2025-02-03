@@ -2,7 +2,7 @@
 
 ## **Overview**
 
-This project was created by **[Your Name]** and **Fatma** as a group project for **Code Your Future**. The aim of this project is to build a tool that helps users apply the **spaced repetition** learning technique.
+This project was created by [Rihanna](https://github.com/RihannaP) and [Fatma](https://github.com/AFatmaa) as a group project for **Code Your Future**. The aim of this project is to build a tool that helps users apply the **spaced repetition** learning technique.
 
 Spaced repetition involves reviewing topics at increasing time intervals (e.g., after one week, one month, three months, six months, and one year) to improve long-term retention. One of the key challenges of this method is keeping track of when to revise each topic. Our application solves this by allowing users to track their topics and see when it's time to review them.
 
