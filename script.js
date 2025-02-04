@@ -6,6 +6,21 @@
 
 import { getUserIds } from "./storage.js";
 
+function displayAgenda(userId){
+ const agendaContainer = document.getElementById("agenda") 
+ agendaContainer.textContent = ""
+  const agenda = getData(userId)
+  if (!agenda || agenda.length === 0) {
+    document.getElementById('agenda').innerHTML = 'No agenda available for this user.';
+    return;
+  }
+ const table = document.createElement("table")
+ table.border = "1";
+ for (const item of user){
+
+ }
+}
+
 window.onload = function () {
   const users = getUserIds();
   document.querySelector("p").innerText = `There are ${users.length} users`;
