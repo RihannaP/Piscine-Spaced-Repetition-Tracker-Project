@@ -2,7 +2,45 @@
 <html>
   <head>
     <script type="module" src="script.js"></script>
+    <script type="module" src="storage.js"></script>
+    <title>Spaced Repetition Tracker</title>
   </head>
   <body>
+    <header>
+        <h1 id="title">Spaced Repetition Tracker</h1>
+    </header>
+    <main>
+        <!-- User Selection -->
+        <label for="user-select">Select User:</label>
+        <select id="user-select">
+            <option value="">--Select a user--</option>
+            <option value="user1">User 1</option>
+            <option value="user2">User 2</option>
+            <option value="user3">User 3</option>
+            <option value="user4">User 4</option>
+            <option value="user5">User 5</option>
+        </select>
+        <!-- Add Topic Form -->
+        <h2>Add New Topic</h2>
+        <form id="add-topic-form">
+            <label for="topic-name">Topic Name:</label>
+            <input type="text" id="topic-name" name="topic-name" required />
+
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" required />
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Agenda Display -->
+        <h2>Agenda</h2>
+        <div id="agenda">
+            <p></p>
+            <p>Select a user to view their agenda.</p>
+        
+    </main>
+    <footer>
+
+    </footer>
   </body>
 </html>
