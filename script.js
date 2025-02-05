@@ -38,7 +38,7 @@ function populateUserDropdown() {
   });
 }
 
-// Handles user selection and displays a static message
+// Handles user selection and displays the user's stored agenda
 function handleUserSelection(event) {
   const selectedUserId = event.target.value; 
   const agendaDiv = document.getElementById("agenda");
@@ -55,7 +55,7 @@ function handleUserSelection(event) {
   }
 }
 
-// Function to handle topic submission and store it in localStorage
+// Function to handle topic submission, calculate revision dates, and store them in localStorage
 function handleTopicSubmission(event) {
   event.preventDefault();
 
@@ -72,6 +72,7 @@ function handleTopicSubmission(event) {
   // Create new topic object
   const newTopic = { topic: topicName, date: startDate };
   const newTopics = calculateFutureDates(newTopic)
+
   // Save data to localStorage
   addData(userId, newTopics);
 
@@ -117,8 +118,20 @@ function calculateFutureDates(newTopic) {
   return [newTopic, nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
 }
 
+// Function to format date 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.toLocaleString('en-GB', { month: 'long' });
+  const year = date.getFullYear();
+  
+  // Add ordinal suffix to the day
+  const suffix = (day === 1 || day === 21 || day === 31) ? "st" : 
+                 (day === 2 || day === 22) ? "nd" : 
+                 (day === 3 || day === 23) ? "rd" : "th";
 
-
+  return `${day}${suffix} ${month} ${year}`;
+}
 
 // Function to display the agenda for a selected user in a table
 function displayAgenda(userId){
@@ -153,14 +166,14 @@ function displayAgenda(userId){
          <tbody>
      `;
 
-     // Add each agenda item to the table body
+     // Add each agenda item to the table body with formatted date
      futureAgenda.forEach(item => {
        const topic = item.topic;
-       const date = new Date(item.date).toLocaleDateString();
+       const formattedDate = formatDate(item.date);
        agendaHtml += `
          <tr>
            <td>${topic}</td>
-           <td>${date}</td>
+           <td>${formattedDate}</td>
          </tr>
        `;
      });
