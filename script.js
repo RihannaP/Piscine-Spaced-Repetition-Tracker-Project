@@ -32,7 +32,7 @@ function populateUserDropdown() {
     option.textContent = `User ${userId}`;
     userSelect.appendChild(option);
   });
-
+}
 
 // Handles user selection and displays a static message
 function handleUserSelection(event) {
