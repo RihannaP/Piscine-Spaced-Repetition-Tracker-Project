@@ -71,9 +71,9 @@ function handleTopicSubmission(event) {
 
   // Create new topic object
   const newTopic = { topic: topicName, date: startDate };
-
+  const newTopics = calculateFutureDates(newTopic)
   // Save data to localStorage
-  addData(userId, [newTopic]);
+  addData(userId, newTopics);
 
   // Clear input fields
   document.getElementById("topic-name").value = "";
@@ -82,6 +82,42 @@ function handleTopicSubmission(event) {
   // Refresh the agenda display
   displayAgenda(userId);
 }
+
+//one week, one month, three months, six months and one year from the selected date
+function calculateFutureDates(newTopic) {
+  const startDate = new Date(newTopic.date);
+
+  // Create new Date objects for each calculation to avoid modifying the original date
+  const nextWeekObj = { 
+    topic: newTopic.topic, 
+    date: new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000) // Add 7 days
+  };
+
+  const nextMonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 1)) // Add 1 month
+  };
+
+  const next3MonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 3)) // Add 3 months
+  };
+
+  const next6MonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 6)) // Add 6 months
+  };
+
+  const nextYearObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)) // Add 1 year
+  };
+
+  // Return an array of all the dates including the original one
+  return [newTopic, nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
+}
+
+
 
 
 // Function to display the agenda for a selected user in a table
