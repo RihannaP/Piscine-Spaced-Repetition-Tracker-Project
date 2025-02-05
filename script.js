@@ -32,7 +32,7 @@ function populateUserDropdown() {
     option.textContent = `User ${userId}`;
     userSelect.appendChild(option);
   });
-}
+
 
 // Handles user selection and displays a static message
 function handleUserSelection(event) {
@@ -50,11 +50,6 @@ function handleUserSelection(event) {
     document.getElementById('agenda').innerHTML = 'Please select a user.';
   }
 }
-
-
-
-
-
 
 
 
@@ -151,3 +146,4 @@ function displayAgenda(userId){
     { topic: "React Components", date: "2026-05-15" },
   ],
 };
+
