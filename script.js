@@ -69,12 +69,9 @@ function handleTopicSubmission(event) {
     return;
   }
 
-  // Calculate revision dates
-  const revisionDates = calculateRevisionDates(startDate);
-
-  // Create new topic objects with revision dates
-  const newTopics = revisionDates.map(date => ({ topic: topicName, date }));
-
+  // Create new topic object
+  const newTopic = { topic: topicName, date: startDate };
+  const newTopics = calculateFutureDates(newTopic)
   // Save data to localStorage
   addData(userId, newTopics);
 
@@ -86,19 +83,44 @@ function handleTopicSubmission(event) {
   displayAgenda(userId);
 }
 
-// Function to calculate revision dates
-function calculateRevisionDates(startDate) {
-  const baseDate = new Date(startDate);
-  return [
-    new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() + 7), // 1 week
-    new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, baseDate.getDate()), // 1 month
-    new Date(baseDate.getFullYear(), baseDate.getMonth() + 3, baseDate.getDate()), // 3 months
-    new Date(baseDate.getFullYear(), baseDate.getMonth() + 6, baseDate.getDate()), // 6 months
-    new Date(baseDate.getFullYear() + 1, baseDate.getMonth(), baseDate.getDate()) // 1 year
-  ].map(date => date.toISOString().split("T")[0]); // Convert to YYYY-MM-DD format
+//one week, one month, three months, six months and one year from the selected date
+function calculateFutureDates(newTopic) {
+  const startDate = new Date(newTopic.date);
+
+  // Create new Date objects for each calculation to avoid modifying the original date
+  const nextWeekObj = { 
+    topic: newTopic.topic, 
+    date: new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000) // Add 7 days
+  };
+
+  const nextMonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 1)) // Add 1 month
+  };
+
+  const next3MonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 3)) // Add 3 months
+  };
+
+  const next6MonthObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setMonth(startDate.getMonth() + 6)) // Add 6 months
+  };
+
+  const nextYearObj = { 
+    topic: newTopic.topic, 
+    date: new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)) // Add 1 year
+  };
+
+  // Return an array of all the dates including the original one
+  return [newTopic, nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
 }
 
-// Function to display the agenda for a selected user
+
+
+
+// Function to display the agenda for a selected user in a table
 function displayAgenda(userId){
   const agendaContainer = document.getElementById("agenda") 
   agendaContainer.textContent = ""
