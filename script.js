@@ -115,7 +115,7 @@ function calculateFutureDates(newTopic) {
   };
 
   // Return an array of all the dates including the original one
-  return [newTopic, nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
+  return [nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
 }
 
 // Function to format date 
@@ -149,7 +149,12 @@ function displayAgenda(userId){
 
    // Filter out topics with revision dates in the past
    const today = new Date();
-   const futureAgenda = agenda.filter(item => new Date(item.date) >= today);
+   today.setHours(0, 0, 0, 0)
+   const futureAgenda = agenda.filter(item => {
+    const itemDate = new Date(item.date);
+    itemDate.setHours(0, 0, 0, 0); 
+    return itemDate >= today;
+  });
 
    // Sort the agenda by revision date in chronological order
    futureAgenda.sort((a, b) => new Date(a.date) - new Date(b.date));
