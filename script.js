@@ -48,6 +48,52 @@ function displayAgenda(userId){
 
 
 window.onload = function () {
+  populateUserDropdown();
+
+  // Add event listener for user selection
+  const userSelect = document.getElementById("user-select");
+  userSelect.addEventListener("change", handleUserSelection);
+};
+
+// Populates the user dropdown with IDs fetched from storage.js
+function populateUserDropdown() {
+  const userSelect = document.getElementById("user-select");
   const users = getUserIds();
+
   document.querySelector("p").innerText = `There are ${users.length} users`;
 };
+=======
+
+  // Create a default option
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "--Select a user--";
+  userSelect.appendChild(defaultOption);
+
+  // Populate dropdown with user options
+  users.forEach((userId) => {
+    const option = document.createElement("option");
+    option.value = userId;
+    option.textContent = `User ${userId}`;
+    userSelect.appendChild(option);
+  });
+}
+
+// Handles user selection and displays a static message
+function handleUserSelection(event) {
+  const selectedUserId = event.target.value; 
+  const agendaDiv = document.getElementById("agenda");
+
+  // Clear any previous content
+  agendaDiv.innerHTML = "";
+
+  // If a user is selected, show the static message
+  if (selectedUserId) {
+    const message = document.createElement("p");
+    message.textContent = "No agenda is found for the selected user.";
+    agendaDiv.appendChild(message);
+  }
+}
+
+feature/display-agenda
+main
