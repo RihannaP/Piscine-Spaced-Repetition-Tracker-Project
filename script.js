@@ -38,7 +38,7 @@ function populateUserDropdown() {
   });
 }
 
-// Handles user selection and displays a static message
+// Handles user selection and displays the user's stored agenda
 function handleUserSelection(event) {
   const selectedUserId = event.target.value; 
   const agendaDiv = document.getElementById("agenda");
@@ -55,7 +55,7 @@ function handleUserSelection(event) {
   }
 }
 
-// Function to handle topic submission and store it in localStorage
+// Function to handle topic submission, calculate revision dates, and store them in localStorage
 function handleTopicSubmission(event) {
   event.preventDefault();
 
@@ -69,11 +69,14 @@ function handleTopicSubmission(event) {
     return;
   }
 
-  // Create new topic object
-  const newTopic = { topic: topicName, date: startDate };
+  // Calculate revision dates
+  const revisionDates = calculateRevisionDates(startDate);
+
+  // Create new topic objects with revision dates
+  const newTopics = revisionDates.map(date => ({ topic: topicName, date }));
 
   // Save data to localStorage
-  addData(userId, [newTopic]);
+  addData(userId, newTopics);
 
   // Clear input fields
   document.getElementById("topic-name").value = "";
@@ -83,8 +86,19 @@ function handleTopicSubmission(event) {
   displayAgenda(userId);
 }
 
+// Function to calculate revision dates
+function calculateRevisionDates(startDate) {
+  const baseDate = new Date(startDate);
+  return [
+    new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() + 7), // 1 week
+    new Date(baseDate.getFullYear(), baseDate.getMonth() + 1, baseDate.getDate()), // 1 month
+    new Date(baseDate.getFullYear(), baseDate.getMonth() + 3, baseDate.getDate()), // 3 months
+    new Date(baseDate.getFullYear(), baseDate.getMonth() + 6, baseDate.getDate()), // 6 months
+    new Date(baseDate.getFullYear() + 1, baseDate.getMonth(), baseDate.getDate()) // 1 year
+  ].map(date => date.toISOString().split("T")[0]); // Convert to YYYY-MM-DD format
+}
 
-// Function to display the agenda for a selected user in a table
+// Function to display the agenda for a selected user
 function displayAgenda(userId){
   const agendaContainer = document.getElementById("agenda") 
   agendaContainer.textContent = ""
