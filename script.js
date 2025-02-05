@@ -3,7 +3,7 @@
 // You can delete the contents of the file once you have understood how it works.
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
-import { getData, addData, getUserIds } from "./storage.js";
+import { getData, addData, getUserIds, clearData } from "./storage.js";
 
 window.onload = function () {
   populateUserDropdown();
@@ -166,19 +166,21 @@ function displayAgenda(userId){
            <tr>
              <th>Topic</th>
              <th>Revision Date</th>
+             <th>Actions</th>
            </tr>
          </thead>
          <tbody>
      `;
 
      // Add each agenda item to the table body with formatted date
-     futureAgenda.forEach(item => {
+     futureAgenda.forEach((item, index) => {
        const topic = item.topic;
        const formattedDate = formatDate(item.date);
        agendaHtml += `
          <tr>
            <td>${topic}</td>
            <td>${formattedDate}</td>
+           <td><button class="delete-btn" data-index="${index}">Delete</button></td>
          </tr>
        `;
      });
@@ -186,6 +188,27 @@ function displayAgenda(userId){
    agendaHtml += '</tbody></table>';
  
    // Insert the generated table into the agenda container
-   document.getElementById('agenda').innerHTML = agendaHtml;
+   agendaContainer.innerHTML = agendaHtml;
+
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const index = button.getAttribute('date-index');
+      deleteTopic(userId, index);
+    });
+  });
  }
+
+  // Function to delete a topic
+function deleteTopic(userId, index) {
+  const agenda = getData(userId);
+  
+  if (agenda && agenda.length > 0) {
+    agenda.splice(index, 1);
+    clearData(userId); 
+    addData(userId, agenda);
+    displayAgenda(userId);
+    alert('Topic deleted successfully!');
+  }
+}
 
