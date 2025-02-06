@@ -1,4 +1,4 @@
-import { calculateFutureDates, formatDate, deleteTopic } from "./script.js";
+import { calculateFutureDates, formatDate, deleteTopic, handleUserSelection } from "./script.js";
 import { addData, getData } from "./storage.js";
 
 // Test calculateFutureDates function
@@ -32,11 +32,16 @@ test("formatDate should return date in '10th February 2025' format", () => {
 
 // Test deleteTopic function
 beforeAll(() => {
-  // Create a mock div for agenda
-  const agendaDiv = document.createElement('div');
-  agendaDiv.id = "agenda";
-  document.body.appendChild(agendaDiv);  // Append to the body to simulate DOM presence
+  //Create a mock div for agenda
+  document.body.innerHTML = `
+    <div id="agenda-container">
+      <h2>Agenda</h2>
+      <div id="agenda">Please select a user.</div>
+    </div>
+  `;
+
 });
+
 
 test("should remove the correct topic and update local storage", () => {
   localStorage.clear(); // Clean up before each test
@@ -56,3 +61,33 @@ test("should remove the correct topic and update local storage", () => {
     expect(results).toEqual(expectedData);
   
 });
+
+// Test handleUserSelection function
+
+test("Should display user 1's agenda after running handleUserSelection", () =>{
+  localStorage.clear(); // Clean up before each test
+  const sampleData = [{ topic: "JavaScript", date: "2025-02-10" }, { topic: "Pythone", date: "2025-11-09" }, { topic: "HTML", date: "2025-11-09" }]
+  const userId = 1
+  addData(userId, sampleData)
+  const mockEvent = { target: { value: "1" } };
+  handleUserSelection(mockEvent)
+  const agendaContainer = document.getElementById("agenda");
+
+  
+  //expect(results).toHaveLength(3);
+  expect(agendaContainer.innerHTML).toContain("JavaScript")
+  expect(agendaContainer.innerHTML).toContain("Pythone");
+  expect(agendaContainer.innerHTML).toContain("HTML");
+})
+
+test("Should display: ' No agenda available for this user.' after running handleUserSelection", () =>{
+  localStorage.clear(); // Clean up before each test
+  const userId = 2
+  getData(userId)
+  const mockEvent = { target: { value: "2" } };
+  handleUserSelection(mockEvent)
+  const agendaContainer = document.getElementById("agenda");
+
+  
+  expect(agendaContainer.innerHTML).toContain('No agenda available for this user.')
+})
