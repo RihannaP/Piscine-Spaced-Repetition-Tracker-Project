@@ -221,4 +221,4 @@ function deleteTopic(userId, index) {
   }
 }
 
-export { calculateFutureDates, formatDate, deleteTopic };
+export { calculateFutureDates, formatDate, deleteTopic, handleUserSelection };
