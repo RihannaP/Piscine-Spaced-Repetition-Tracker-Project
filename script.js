@@ -194,7 +194,7 @@ function displayAgenda(userId){
     const deleteButtons = document.querySelectorAll(".delete-btn");
     deleteButtons.forEach(button => {
     button.addEventListener('click', function() {
-      const index = button.getAttribute('date-index');
+      const index = button.getAttribute('data-index');
       deleteTopic(userId, index);
     });
   });
