@@ -18,6 +18,14 @@ window.onload = function () {
     .addEventListener("submit", handleTopicSubmission);
 };
 
+// Set the default value of the date input to today's date when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  var dateInput = document.getElementById('start-date');
+  if (dateInput) {
+    dateInput.valueAsDate = new Date();
+  }
+});
+
 // Populates the user dropdown with IDs fetched from storage.js
 function populateUserDropdown() {
   const userSelect = document.getElementById("user-select");
