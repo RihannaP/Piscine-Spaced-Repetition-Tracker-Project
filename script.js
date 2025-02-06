@@ -152,7 +152,7 @@ function displayAgenda(userId){
 
    // If there is no agenda for the user, display a message
    if (!agenda || agenda.length === 0) {
-     document.getElementById('agenda').innerHTML = 'No agenda available for this user.';
+     document.getElementById('agenda').textContent = 'No agenda available for this user.';
      return;
    }
 
