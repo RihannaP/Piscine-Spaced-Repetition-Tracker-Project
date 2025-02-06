@@ -212,3 +212,4 @@ function deleteTopic(userId, index) {
   }
 }
 
+export { calculateFutureDates, formatDate };
