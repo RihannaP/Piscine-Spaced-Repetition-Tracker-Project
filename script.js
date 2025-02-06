@@ -1,13 +1,10 @@
-// This is a placeholder file which shows how you can access functions defined in other files.
-// It can be loaded into index.html.
-// You can delete the contents of the file once you have understood how it works.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+
+
 import { getData, addData, getUserIds, clearData } from "./storage.js";
 
 window.onload = function () {
   populateUserDropdown();
-
+  defaultDatePicker()
   // Add event listener for user selection
   const userSelect = document.getElementById("user-select");
   userSelect.addEventListener("change", handleUserSelection);
@@ -18,13 +15,13 @@ window.onload = function () {
     .addEventListener("submit", handleTopicSubmission);
 };
 
-// Set the default value of the date input to today's date when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-  var dateInput = document.getElementById('start-date');
+
+function defaultDatePicker() {
+  let dateInput = document.getElementById('start-date');
   if (dateInput) {
     dateInput.valueAsDate = new Date();
   }
-});
+}
 
 // Populates the user dropdown with IDs fetched from storage.js
 function populateUserDropdown() {
@@ -86,7 +83,7 @@ function handleTopicSubmission(event) {
 
   // Clear input fields
   document.getElementById("topic-name").value = "";
-  document.getElementById("start-date").value = "";
+  defaultDatePicker()
 
   // Refresh the agenda display
   displayAgenda(userId);
