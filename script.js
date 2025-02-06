@@ -13,8 +13,17 @@ window.onload = function () {
   document
     .getElementById("add-topic-form")
     .addEventListener("submit", handleTopicSubmission);
+  
+    document.getElementById("delete-agenda").addEventListener("click", function() {
+      const userSelect = document.getElementById("user-select"); 
+      const userId = userSelect.value; 
+      if (!userId) {
+          alert("Please select a user first!");
+          return;
+      }
+      handleDeleteAgenda(userId);
+  });
 };
-
 
 function defaultDatePicker() {
   let dateInput = document.getElementById('start-date');
@@ -196,6 +205,8 @@ function displayAgenda(userId){
    // Insert the generated table into the agenda container
    agendaContainer.innerHTML = agendaHtml;
 
+   
+
     const deleteButtons = document.querySelectorAll(".delete-btn");
     deleteButtons.forEach(button => {
     button.addEventListener('click', function() {
@@ -203,6 +214,14 @@ function displayAgenda(userId){
       deleteTopic(userId, index);
     });
   });
+ }
+
+
+  // Function to delete a agenda
+ function handleDeleteAgenda(userId){
+    clearData(userId)
+    displayAgenda(userId)
+    alert('Agenda deleted successfully!');
  }
 
   // Function to delete a topic
