@@ -84,14 +84,15 @@ function handleTopicSubmission(event) {
   displayAgenda(userId);
 }
 
-//one week, one month, three months, six months and one year from the selected date
+// calculate date one week, one month, three months, six months and one year from the selected date
 function calculateFutureDates(newTopic) {
   const startDate = new Date(newTopic.date);
 
   // Create new Date objects for each calculation to avoid modifying the original date
   const nextWeekObj = { 
     topic: newTopic.topic, 
-    date: new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000) // Add 7 days
+    date: new Date(new Date(startDate).setDate(startDate.getDate() + 7))  // Add 7 days
+
   };
 
   const nextMonthObj = { 
@@ -114,7 +115,7 @@ function calculateFutureDates(newTopic) {
     date: new Date(new Date(startDate).setFullYear(startDate.getFullYear() + 1)) // Add 1 year
   };
 
-  // Return an array of all the dates including the original one
+  // Return an array of all the dates
   return [nextWeekObj, nextMonthObj, next3MonthObj, next6MonthObj, nextYearObj];
 }
 
@@ -136,7 +137,7 @@ function formatDate(dateString) {
 // Function to display the agenda for a selected user in a table
 function displayAgenda(userId){
   const agendaContainer = document.getElementById("agenda") 
-  agendaContainer.textContent = ""
+  agendaContainer.textContent = "";
 
   // Get the user's data from storage
   const agenda = getData(userId)
@@ -212,4 +213,4 @@ function deleteTopic(userId, index) {
   }
 }
 
-export { calculateFutureDates, formatDate };
+export { calculateFutureDates, formatDate, deleteTopic };
